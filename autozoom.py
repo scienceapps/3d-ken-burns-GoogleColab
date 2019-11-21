@@ -51,10 +51,22 @@ exec(open('./models/pointcloud-inpainting.py', 'r').read())
 
 arguments_strIn = './images/doublestrike.jpg'
 arguments_strOut = './autozoom.mp4'
+arguments_centerU = 0.5
+arguments_centerV = 0.5
+arguments_dblShift = 100
+arguments_dblZoom = 1.25
+arguments_floatEasyZoom = 1
+arguments_floatEasyTurbulence = 0
 
 for strOption, strArgument in getopt.getopt(sys.argv[1:], '', [ strParameter[2:] + '=' for strParameter in sys.argv[1::2] ])[0]:
 	if strOption == '--in' and strArgument != '': arguments_strIn = strArgument # path to the input image
 	if strOption == '--out' and strArgument != '': arguments_strOut = strArgument # path to where the output should be stored
+	if strOption == '--centerU' and strArgument != '': arguments_centerU = float(strArgument) # Start position in the U axis for the zoom
+	if strOption == '--centerV' and strArgument != '': arguments_centerV = float(strArgument) # Start position in the V axis for the zoom
+	if strOption == '--shift' and strArgument != '': arguments_dblShift = float(strArgument) # Shift value for the zoom
+	if strOption == '--zoom' and strArgument != '': arguments_dblZoom = float(strArgument) # Zoom force to be applied
+	if strOption == '--easy' and strArgument != '': arguments_floatEasyZoom = float(strArgument) # Easy motion for the zoom in and out
+	if strOption == '--turbulence' and strArgument != '': arguments_floatEasyTurbulence = float(strArgument) # Add some turbulence to the movement
 # end
 
 ##########################################################
@@ -75,15 +87,15 @@ if __name__ == '__main__':
 	process_load(numpyImage, {})
 
 	objectFrom = {
-		'dblCenterU': intWidth / 2.0,
-		'dblCenterV': intHeight / 2.0,
+		'dblCenterU': intWidth * arguments_centerU,
+		'dblCenterV': intHeight * arguments_centerV,
 		'intCropWidth': int(math.floor(0.97 * intWidth)),
 		'intCropHeight': int(math.floor(0.97 * intHeight))
 	}
 
 	objectTo = process_autozoom({
-		'dblShift': 100.0,
-		'dblZoom': 1.25,
+		'dblShift': arguments_dblShift,
+		'dblZoom': arguments_dblZoom,
 		'objectFrom': objectFrom
 	})
 
@@ -91,6 +103,8 @@ if __name__ == '__main__':
 		'dblSteps': numpy.linspace(0.0, 1.0, 75).tolist(),
 		'objectFrom': objectFrom,
 		'objectTo': objectTo,
+		'easyZoom': arguments_floatEasyZoom, 
+		'easyTurbulence': arguments_floatEasyTurbulence,
 		'boolInpaint': True
 	})
 

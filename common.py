@@ -73,6 +73,9 @@ def process_shift(objectSettings):
 	return tensorPoints, tensorShift
 # end
 
+def CosSin(t):
+  return 0.5 * (1 - math.cos(t * math.pi))
+
 def process_autozoom(objectSettings):
 	numpyShiftU = numpy.linspace(-objectSettings['dblShift'], objectSettings['dblShift'], 16)[None, :].repeat(16, 0)
 	numpyShiftV = numpy.linspace(-objectSettings['dblShift'], objectSettings['dblShift'], 16)[:, None].repeat(16, 1)
@@ -164,9 +167,15 @@ def process_kenburns(objectSettings):
 		# end
 	# end
 
+	easyZoom = objectSettings['easyZoom']
+	invEasyZoom = 1 - easyZoom
+
+	easyTurbulence = objectSettings['easyTurbulence']
+	invEasyTurbulence = 1 - easyTurbulence
+
 	for dblStep in objectSettings['dblSteps']:
-		dblFrom = 1.0 - dblStep
-		dblTo = 1.0 - dblFrom
+		dblFrom = (CosSin(1.0 - dblStep) * easyZoom) + ((1.0 - dblStep) * invEasyZoom)
+		dblTo = (CosSin(1.0 - dblFrom) *easyTurbulence) + ((1.0 - dblFrom) * invEasyTurbulence) 
 
 		dblShiftU = ((dblFrom * objectSettings['objectFrom']['dblCenterU']) + (dblTo * objectSettings['objectTo']['dblCenterU'])) - (objectCommon['intWidth'] / 2.0)
 		dblShiftV = ((dblFrom * objectSettings['objectFrom']['dblCenterV']) + (dblTo * objectSettings['objectTo']['dblCenterV'])) - (objectCommon['intHeight'] / 2.0)
