@@ -1,6 +1,7 @@
 # Changes from the main project
 This implementation add a colab file that can be used to easile create videos with zoom.
-[<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](BurguerJohn/3d-ken-burns/blob/Testing/3D%20Ken%20Burner%20Colab.ipynb)
+
+[<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](https://colab.research.google.com/github/BurguerJohn/3d-ken-burns/blob/Testing/3D%20Ken%20Burner%20Colab.ipynb)
 
 # 3d-ken-burns
 This is a reference implementation of 3D Ken Burns Effect from a Single Image [1] using PyTorch. Given a single input image, it animates this still image with a virtual camera scan and zoom subject to motion parallax. Should you be making use of our work, please cite our paper [1].
@@ -38,7 +39,7 @@ To benchmark the depth estimation, run `python benchmark.py`. You can use it to 
 ## video
 <a href="http://content.sniklaus.com/kenburns/video.mp4" rel="Video"><img src="http://content.sniklaus.com/kenburns/video.jpg" alt="Video" width="100%"></a>
 
-## video
+## Examples using the tool
 [![Parallax from a single image [3D Ken Burns]](http://img.youtube.com/vi/3JroOSnBuAk/0.jpg)](http://www.youtube.com/watch?v=3JroOSnBuAk "Parallax from a single image [3D Ken Burns]")
 
 ## license
