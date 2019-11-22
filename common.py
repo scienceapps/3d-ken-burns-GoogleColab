@@ -75,6 +75,8 @@ def process_shift(objectSettings):
 
 def CosSin(t):
   return 0.5 * (1 - math.cos(t * math.pi))
+def Sin(t):
+  return 0.5 * (1 - math.sin(t * math.pi))
 
 def process_autozoom(objectSettings):
 	numpyShiftU = numpy.linspace(-objectSettings['dblShift'], objectSettings['dblShift'], 16)[None, :].repeat(16, 0)
@@ -94,17 +96,18 @@ def process_autozoom(objectSettings):
 			dblShiftU = numpyShiftU[intU, intV].item()
 			dblShiftV = numpyShiftV[intU, intV].item()
 
-			if objectSettings['objectFrom']['dblCenterU'] + dblShiftU < dblCropWidth / 2.0:
-				continue
+			if intU !=8 or intV != 8 or dblBestU != None:
+				if objectSettings['objectFrom']['dblCenterU'] + dblShiftU < dblCropWidth * objectSettings['objectFrom']['centerU']:
+					continue
 
-			elif objectSettings['objectFrom']['dblCenterU'] + dblShiftU > objectCommon['intWidth'] - (dblCropWidth / 2.0):
-				continue
+				elif objectSettings['objectFrom']['dblCenterU'] + dblShiftU > objectCommon['intWidth'] - (dblCropWidth * objectSettings['objectFrom']['centerU']):
+					continue
 
-			elif objectSettings['objectFrom']['dblCenterV'] + dblShiftV < dblCropHeight / 2.0:
-				continue
+				elif objectSettings['objectFrom']['dblCenterV'] + dblShiftV < dblCropHeight * objectSettings['objectFrom']['centerV']:
+					continue
 
-			elif objectSettings['objectFrom']['dblCenterV'] + dblShiftV > objectCommon['intHeight'] - (dblCropHeight / 2.0):
-				continue
+				elif objectSettings['objectFrom']['dblCenterV'] + dblShiftV > objectCommon['intHeight'] - (dblCropHeight * objectSettings['objectFrom']['centerV']):
+					continue
 
 			# end
 
@@ -175,7 +178,7 @@ def process_kenburns(objectSettings):
 
 	for dblStep in objectSettings['dblSteps']:
 		dblFrom = (CosSin(1.0 - dblStep) * easyZoom) + ((1.0 - dblStep) * invEasyZoom)
-		dblTo = (CosSin(1.0 - dblFrom) *easyTurbulence) + ((1.0 - dblFrom) * invEasyTurbulence) 
+		dblTo = (Sin(1.0 - dblFrom) *easyTurbulence) + ((1.0 - dblFrom) * invEasyTurbulence) 
 
 		dblShiftU = ((dblFrom * objectSettings['objectFrom']['dblCenterU']) + (dblTo * objectSettings['objectTo']['dblCenterU'])) - (objectCommon['intWidth'] / 2.0)
 		dblShiftV = ((dblFrom * objectSettings['objectFrom']['dblCenterV']) + (dblTo * objectSettings['objectTo']['dblCenterV'])) - (objectCommon['intHeight'] / 2.0)

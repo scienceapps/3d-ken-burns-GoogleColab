@@ -87,8 +87,10 @@ if __name__ == '__main__':
 	process_load(numpyImage, {})
 
 	objectFrom = {
-		'dblCenterU': intWidth * arguments_centerU,
-		'dblCenterV': intHeight * arguments_centerV,
+		'centerU': 0.5,
+		'centerV': 0.5,
+		'dblCenterU': int(intWidth * arguments_centerU),
+		'dblCenterV': int(intHeight * arguments_centerV),
 		'intCropWidth': int(math.floor(0.97 * intWidth)),
 		'intCropHeight': int(math.floor(0.97 * intHeight))
 	}
